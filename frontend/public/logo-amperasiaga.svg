@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 140" width="100%" height="100%" fill="none">
+  <defs>
+    <!-- Ampera Iconic Red Gradients -->
+    <linearGradient id="amperaRed" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EF4444" />
+      <stop offset="100%" stop-color="#B91C1C" />
+    </linearGradient>
+    <linearGradient id="redAccent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#DC2626" />
+      <stop offset="100%" stop-color="#991B1B" />
+    </linearGradient>
+
+    <!-- Medical & Emergency Blue Gradients -->
+    <linearGradient id="medBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563EB" />
+      <stop offset="100%" stop-color="#1D4ED8" />
+    </linearGradient>
+    <linearGradient id="blueGlow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3B82F6" />
+      <stop offset="100%" stop-color="#1E40AF" />
+    </linearGradient>
+    
+    <!-- Musi River Curve Gradient -->
+    <linearGradient id="musiRiver" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#DBEAFE" />
+      <stop offset="50%" stop-color="#93C5FD" />
+      <stop offset="100%" stop-color="#DBEAFE" />
+    </linearGradient>
+
+    <filter id="softShadow" x="-12%" y="-12%" width="124%" height="124%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#0F172A" flood-opacity="0.10" />
+    </filter>
+  </defs>
+
+  <!-- Emblem Icon Group -->
+  <g transform="translate(16, 10)">
+    <!-- Container Badge Shield/Squircle with crisp border -->
+    <rect x="0" y="0" width="120" height="120" rx="28" fill="#FFFFFF" filter="url(#softShadow)"/>
+    <rect x="0.75" y="0.75" width="118.5" height="118.5" rx="27.25" stroke="#E2E8F0" stroke-width="1.5"/>
+
+    <!-- Subtle Sungai Musi water wave at base in vibrant soft blue -->
+    <path d="M 12 94 C 36 90, 84 98, 108 94 L 108 102 C 90 106, 30 106, 12 102 Z" fill="url(#musiRiver)"/>
+
+    <!-- Jembatan Ampera Horizontal Deck (Span Beam) in Merah Ampera -->
+    <rect x="18" y="70" width="84" height="6" rx="2" fill="url(#amperaRed)"/>
+
+    <!-- Left Tower of Jembatan Ampera (Merah) -->
+    <path d="M38 32 L46 32 L48 88 L36 88 Z" fill="url(#amperaRed)"/>
+    <!-- Left Tower Crown Roof (Merah Tua) -->
+    <polygon points="34,32 50,32 46,22 38,22" fill="#991B1B"/>
+    <!-- Left Tower Windows/Crossbeams -->
+    <rect x="40" y="42" width="4" height="8" rx="1" fill="#FFFFFF" opacity="0.95"/>
+    <rect x="40" y="56" width="4" height="8" rx="1" fill="#FFFFFF" opacity="0.95"/>
+
+    <!-- Right Tower of Jembatan Ampera (Merah) -->
+    <path d="M74 32 L82 32 L84 88 L72 88 Z" fill="url(#amperaRed)"/>
+    <!-- Right Tower Crown Roof (Merah Tua) -->
+    <polygon points="70,32 86,32 82,22 74,22" fill="#991B1B"/>
+    <!-- Right Tower Windows/Crossbeams -->
+    <rect x="76" y="42" width="4" height="8" rx="1" fill="#FFFFFF" opacity="0.95"/>
+    <rect x="76" y="56" width="4" height="8" rx="1" fill="#FFFFFF" opacity="0.95"/>
+
+    <!-- Cable Stays (Kabel Baja Penopang Ampera) Merah -->
+    <line x1="42" y1="36" x2="20" y2="70" stroke="#DC2626" stroke-width="1.8" stroke-linecap="round" opacity="0.85"/>
+    <line x1="42" y1="48" x2="25" y2="70" stroke="#DC2626" stroke-width="1.5" stroke-linecap="round" opacity="0.65"/>
+    <line x1="78" y1="36" x2="100" y2="70" stroke="#DC2626" stroke-width="1.8" stroke-linecap="round" opacity="0.85"/>
+    <line x1="78" y1="48" x2="95" y2="70" stroke="#DC2626" stroke-width="1.5" stroke-linecap="round" opacity="0.65"/>
+
+    <!-- Integrated Center Medical Cross in Primary Blue (Kombinasi Biru Medis + Merah Ampera) -->
+    <!-- Medical Circular Badge Base -->
+    <circle cx="60" cy="58" r="23" fill="#FFFFFF" filter="url(#softShadow)"/>
+    <circle cx="60" cy="58" r="22" stroke="#DBEAFE" stroke-width="1.5"/>
+
+    <!-- Medical Cross in Vivid Medical Blue -->
+    <!-- Vertical Cross bar -->
+    <rect x="54" y="42" width="12" height="32" rx="3.5" fill="url(#medBlue)"/>
+    <!-- Horizontal Cross bar -->
+    <rect x="44" y="52" width="32" height="12" rx="3.5" fill="url(#medBlue)"/>
+
+    <!-- Central Lifeline Pulse / Heartbeat Line in Pure White -->
+    <path d="M 45 58 L 52 58 L 55 50 L 59 66 L 63 53 L 66 58 L 75 58" 
+          stroke="#FFFFFF" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+    <!-- Pulse Signal Center Dot (Merah Siaga) -->
+    <circle cx="60" cy="58" r="2.2" fill="#EF4444"/>
+  </g>
+
+  <!-- Wordmark & Typography Section (Biru & Merah Harmonis) -->
+  <g transform="translate(156, 24)">
+    <!-- Brand Wordmark: Ampera (Biru Medis) + Siaga (Merah Ampera) -->
+    <text x="0" y="46" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-weight="900" font-size="44" letter-spacing="-0.03em">
+      <tspan fill="#1D4ED8">Ampera</tspan><tspan fill="#DC2626">Siaga</tspan>
+    </text>
+
+    <!-- Subtitle / Tagline Pill Badge with Blue & Red Accents -->
+    <g transform="translate(0, 58)">
+      <rect x="0" y="0" width="374" height="24" rx="6" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="0.75"/>
+      
+      <!-- Dual Pulse Indicator Dots (Biru & Merah) -->
+      <circle cx="12" cy="12" r="4" fill="#1D4ED8"/>
+      <circle cx="22" cy="12" r="2.5" fill="#DC2626"/>
+
+      <text x="32" y="16.5" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-weight="700" font-size="11" fill="#1E293B" letter-spacing="0.05em">
+        TANGGAP DARURAT MEDIS &amp; AMBULANS PALEMBANG
+      </text>
+    </g>
+
+    <!-- Municipal Verification Text in Deep Slate/Blue -->
+    <g transform="translate(0, 93)">
+      <text x="0" y="0" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-weight="700" font-size="10.5" fill="#475569" letter-spacing="0.03em">
+        TERHUBUNG KE PSC 119 &amp; 112 KOTA PALEMBANG
+      </text>
+    </g>
+  </g>
+</svg>
