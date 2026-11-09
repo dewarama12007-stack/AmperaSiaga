@@ -23,6 +23,7 @@ import {
   adminLogout,
   adminGetMe,
   FALLBACK_AMBULANCES,
+  FALLBACK_PROVIDERS,
 } from "@/lib/api";
 
 export default function AdminPage() {
@@ -33,7 +34,7 @@ export default function AdminPage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
 
   const [ambulances, setAmbulances] = useState<Ambulance[]>(FALLBACK_AMBULANCES);
-  const [providers, setProviders] = useState<Provider[]>([]);
+  const [providers, setProviders] = useState<Provider[]>(FALLBACK_PROVIDERS);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // Screen A4: Delete modal
