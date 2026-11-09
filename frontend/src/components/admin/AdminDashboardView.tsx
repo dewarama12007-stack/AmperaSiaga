@@ -48,116 +48,145 @@ export default function AdminDashboardView({
   const displayRequests = emergencyRequests.slice(0, 5);
 
   return (
-    <div className="space-y-6">
-      {/* 6 KARTU STATISTIK (Grid 6 Kolom Sesuai Stitch Screen A2) */}
-      <section className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4">
+    <div className="space-y-4 sm:space-y-6">
+      {/* Quick Mobile Section Switcher Chips (Khusus Mobile < lg) */}
+      <div className="lg:hidden flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+        <a
+          href="#peta-armada"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-bold shrink-0 hover:bg-blue-100 transition-colors"
+        >
+          <span className="material-symbols-outlined text-sm">map</span>
+          <span>Peta Armada</span>
+        </a>
+        <a
+          href="#permintaan-terbaru"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-red-50 border border-red-200 text-red-700 text-xs font-bold shrink-0 hover:bg-red-100 transition-colors"
+        >
+          <span className="material-symbols-outlined text-sm">notification_important</span>
+          <span>Panggilan Baru {waitingCount > 0 && `(${waitingCount})`}</span>
+        </a>
+        <a
+          href="#diagram-analitik"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-700 text-xs font-bold shrink-0 hover:bg-slate-200 transition-colors"
+        >
+          <span className="material-symbols-outlined text-sm">analytics</span>
+          <span>Analitik 24 Jam</span>
+        </a>
+      </div>
+
+      {/* 6 KARTU STATISTIK (Grid 2 Kolom di HP, 3 di Tablet, 6 di Desktop) */}
+      <section className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4">
         {/* Kartu 1: Total Ambulans */}
-        <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs flex flex-col justify-between transition hover:shadow-md">
+        <div className="bg-white rounded-xl sm:rounded-2xl p-3.5 sm:p-4 border border-slate-200 shadow-xs flex flex-col justify-between transition hover:shadow-md">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-slate-500 font-medium">Total Ambulans</span>
-            <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center text-blue-700">
-              <span className="material-symbols-outlined text-lg">airport_shuttle</span>
+            <span className="text-[11px] sm:text-xs text-slate-500 font-medium truncate">Total Ambulans</span>
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-blue-50 flex items-center justify-center text-blue-700 shrink-0">
+              <span className="material-symbols-outlined text-base sm:text-lg">airport_shuttle</span>
             </div>
           </div>
-          <div className="mt-3">
-            <h3 className="text-2xl font-bold text-slate-900 tracking-tight">{total}</h3>
-            <p className="text-xs text-slate-400 font-medium mt-0.5">Seluruh armada kota</p>
+          <div className="mt-2.5 sm:mt-3">
+            <h3 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">{total}</h3>
+            <p className="text-[10px] sm:text-xs text-slate-400 font-medium mt-0.5 truncate">Seluruh armada kota</p>
           </div>
         </div>
 
         {/* Kartu 2: Tersedia */}
-        <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs flex flex-col justify-between transition hover:shadow-md border-l-4 border-l-[#16A34A]">
+        <div className="bg-white rounded-xl sm:rounded-2xl p-3.5 sm:p-4 border border-slate-200 shadow-xs flex flex-col justify-between transition hover:shadow-md border-l-4 border-l-[#16A34A]">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-slate-500 font-medium">Tersedia</span>
-            <div className="w-9 h-9 rounded-xl bg-[#DCFCE7] flex items-center justify-center text-[#16A34A]">
-              <span className="material-symbols-outlined text-lg">check_circle</span>
+            <span className="text-[11px] sm:text-xs text-slate-500 font-medium truncate">Tersedia</span>
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-[#DCFCE7] flex items-center justify-center text-[#16A34A] shrink-0">
+              <span className="material-symbols-outlined text-base sm:text-lg">check_circle</span>
             </div>
           </div>
-          <div className="mt-3">
-            <h3 className="text-2xl font-bold text-[#16A34A] tracking-tight">{tersedia}</h3>
-            <div className="inline-flex items-center gap-1 text-[11px] font-semibold text-[#16A34A] bg-[#DCFCE7] px-2 py-0.5 rounded-full mt-0.5">
+          <div className="mt-2.5 sm:mt-3">
+            <h3 className="text-xl sm:text-2xl font-bold text-[#16A34A] tracking-tight">{tersedia}</h3>
+            <div className="inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-semibold text-[#16A34A] bg-[#DCFCE7] px-2 py-0.5 rounded-full mt-0.5">
               <span>Siaga 100%</span>
             </div>
           </div>
         </div>
 
         {/* Kartu 3: Sedang Bertugas */}
-        <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs flex flex-col justify-between transition hover:shadow-md border-l-4 border-l-[#F59E0B]">
+        <div className="bg-white rounded-xl sm:rounded-2xl p-3.5 sm:p-4 border border-slate-200 shadow-xs flex flex-col justify-between transition hover:shadow-md border-l-4 border-l-[#F59E0B]">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-slate-500 font-medium">Sedang Bertugas</span>
-            <div className="w-9 h-9 rounded-xl bg-[#FEF3C7] flex items-center justify-center text-[#B45309]">
-              <span className="material-symbols-outlined text-lg">emergency</span>
+            <span className="text-[11px] sm:text-xs text-slate-500 font-medium truncate">Sedang Bertugas</span>
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-[#FEF3C7] flex items-center justify-center text-[#B45309] shrink-0">
+              <span className="material-symbols-outlined text-base sm:text-lg">emergency</span>
             </div>
           </div>
-          <div className="mt-3">
-            <h3 className="text-2xl font-bold text-[#F59E0B] tracking-tight">{bertugas}</h3>
-            <p className="text-xs text-[#B45309] font-medium mt-0.5">{bertugas} unit jalan</p>
+          <div className="mt-2.5 sm:mt-3">
+            <h3 className="text-xl sm:text-2xl font-bold text-[#F59E0B] tracking-tight">{bertugas}</h3>
+            <p className="text-[10px] sm:text-xs text-[#B45309] font-medium mt-0.5 truncate">{bertugas} unit jalan</p>
           </div>
         </div>
 
         {/* Kartu 4: Offline */}
-        <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs flex flex-col justify-between transition hover:shadow-md border-l-4 border-l-[#6B7280]">
+        <div className="bg-white rounded-xl sm:rounded-2xl p-3.5 sm:p-4 border border-slate-200 shadow-xs flex flex-col justify-between transition hover:shadow-md border-l-4 border-l-[#6B7280]">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-slate-500 font-medium">Offline</span>
-            <div className="w-9 h-9 rounded-xl bg-[#F3F4F6] flex items-center justify-center text-[#6B7280]">
-              <span className="material-symbols-outlined text-lg">build</span>
+            <span className="text-[11px] sm:text-xs text-slate-500 font-medium truncate">Offline</span>
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-[#F3F4F6] flex items-center justify-center text-[#6B7280] shrink-0">
+              <span className="material-symbols-outlined text-base sm:text-lg">build</span>
             </div>
           </div>
-          <div className="mt-3">
-            <h3 className="text-2xl font-bold text-[#6B7280] tracking-tight">{offline}</h3>
-            <p className="text-xs text-slate-400 font-medium mt-0.5">Perawatan rutin</p>
+          <div className="mt-2.5 sm:mt-3">
+            <h3 className="text-xl sm:text-2xl font-bold text-[#6B7280] tracking-tight">{offline}</h3>
+            <p className="text-[10px] sm:text-xs text-slate-400 font-medium mt-0.5 truncate">Perawatan rutin</p>
           </div>
         </div>
 
         {/* Kartu 5: Permintaan Aktif */}
-        <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs flex flex-col justify-between transition hover:shadow-md border-l-4 border-l-[#1D4ED8]">
+        <div className="bg-white rounded-xl sm:rounded-2xl p-3.5 sm:p-4 border border-slate-200 shadow-xs flex flex-col justify-between transition hover:shadow-md border-l-4 border-l-[#1D4ED8]">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-slate-500 font-medium">Permintaan Aktif</span>
-            <div className="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center text-blue-700">
-              <span className="material-symbols-outlined text-lg">phone_in_talk</span>
+            <span className="text-[11px] sm:text-xs text-slate-500 font-medium truncate">Permintaan Aktif</span>
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-blue-50 flex items-center justify-center text-blue-700 shrink-0">
+              <span className="material-symbols-outlined text-base sm:text-lg">phone_in_talk</span>
             </div>
           </div>
-          <div className="mt-3">
-            <h3 className="text-2xl font-bold text-[#1D4ED8] tracking-tight">{activeRequestsCount}</h3>
-            <p className="text-xs text-[#1D4ED8] font-semibold mt-0.5">Perlu penanganan</p>
+          <div className="mt-2.5 sm:mt-3">
+            <h3 className="text-xl sm:text-2xl font-bold text-[#1D4ED8] tracking-tight">{activeRequestsCount}</h3>
+            <p className="text-[10px] sm:text-xs text-[#1D4ED8] font-semibold mt-0.5 truncate">Perlu penanganan</p>
           </div>
         </div>
 
         {/* Kartu 6: Permintaan Selesai */}
-        <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs flex flex-col justify-between transition hover:shadow-md border-l-4 border-l-[#0F7B6C]">
+        <div className="bg-white rounded-xl sm:rounded-2xl p-3.5 sm:p-4 border border-slate-200 shadow-xs flex flex-col justify-between transition hover:shadow-md border-l-4 border-l-[#0F7B6C]">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-slate-500 font-medium">Permintaan Selesai</span>
-            <div className="w-9 h-9 rounded-xl bg-teal-50 flex items-center justify-center text-[#0F7B6C]">
-              <span className="material-symbols-outlined text-lg">task_alt</span>
+            <span className="text-[11px] sm:text-xs text-slate-500 font-medium truncate">Permintaan Selesai</span>
+            <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-teal-50 flex items-center justify-center text-[#0F7B6C] shrink-0">
+              <span className="material-symbols-outlined text-base sm:text-lg">task_alt</span>
             </div>
           </div>
-          <div className="mt-3">
-            <h3 className="text-2xl font-bold text-[#0F7B6C] tracking-tight">{completedRequestsCount}</h3>
-            <p className="text-xs text-teal-700 font-medium mt-0.5">Hari ini (Palembang)</p>
+          <div className="mt-2.5 sm:mt-3">
+            <h3 className="text-xl sm:text-2xl font-bold text-[#0F7B6C] tracking-tight">{completedRequestsCount}</h3>
+            <p className="text-[10px] sm:text-xs text-teal-700 font-medium mt-0.5 truncate">Hari ini (Palembang)</p>
           </div>
         </div>
       </section>
 
       {/* 2 KOLOM KONTEN UTAMA: PETA ARMADA (2/3) & PERMINTAAN TERBARU (1/3) */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-6 items-start">
         {/* KOLOM KIRI (2/3 LEBAR - PETA ARMADA INTERAKTIF & DIAGRAM ANALITIK) */}
-        <div className="lg:col-span-2 flex flex-col gap-6">
-          {/* 1. UPGRADE PETA PEMANTAUAN ARMADA PALEMBANG (LEAFLET COMMAND CENTER) */}
-          <AdminFleetMap
-            ambulances={ambulances}
-            onSelectAmbulance={onSelectAmbulance}
-            onNavigateToArmada={onNavigateToArmada}
-          />
+        <div className="lg:col-span-2 flex flex-col gap-5 sm:gap-6">
+          {/* 1. PETA PEMANTAUAN ARMADA PALEMBANG (LEAFLET COMMAND CENTER) */}
+          <div id="peta-armada" className="scroll-mt-20">
+            <AdminFleetMap
+              ambulances={ambulances}
+              onSelectAmbulance={onSelectAmbulance}
+              onNavigateToArmada={onNavigateToArmada}
+            />
+          </div>
 
           {/* 2. DIAGRAM DI DASHBOARD ADMIN DIBAWAH PETA PEMANTAUAN ARMADA */}
-          <AdminAnalyticsCharts
-            ambulances={ambulances}
-            providers={providers}
-          />
+          <div id="diagram-analitik" className="scroll-mt-20">
+            <AdminAnalyticsCharts
+              ambulances={ambulances}
+              providers={providers}
+            />
+          </div>
         </div>
 
         {/* KOLOM KANAN (1/3 LEBAR - FEED PERMINTAAN TERBARU) */}
-        <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs flex flex-col gap-4">
+        <div id="permintaan-terbaru" className="scroll-mt-20 bg-white rounded-xl sm:rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-xs flex flex-col gap-4">
           <div className="flex items-center justify-between pb-3 border-b border-slate-100">
             <div>
               <h3 className="text-base font-bold text-slate-900">Permintaan Terbaru</h3>

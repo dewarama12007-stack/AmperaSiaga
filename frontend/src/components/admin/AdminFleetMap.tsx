@@ -282,11 +282,11 @@ export default function AdminFleetMap({
         </div>
 
         {/* Toolbar Filter Status */}
-        <div className="flex flex-wrap items-center gap-2">
-          <div className="inline-flex p-1 bg-slate-100 rounded-xl border border-slate-200 text-xs font-semibold">
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0 no-scrollbar max-w-full">
+          <div className="inline-flex p-1 bg-slate-100 rounded-xl border border-slate-200 text-xs font-semibold shrink-0">
             <button
               onClick={() => setMapFilter("all")}
-              className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
+              className={`px-2.5 sm:px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
                 mapFilter === "all" ? "bg-white text-blue-700 shadow-xs font-bold" : "text-slate-600 hover:text-slate-900"
               }`}
             >
@@ -294,7 +294,7 @@ export default function AdminFleetMap({
             </button>
             <button
               onClick={() => setMapFilter("tersedia")}
-              className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
+              className={`px-2.5 sm:px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
                 mapFilter === "tersedia" ? "bg-[#DCFCE7] text-[#16A34A] shadow-xs font-bold" : "text-slate-600 hover:text-slate-900"
               }`}
             >
@@ -302,7 +302,7 @@ export default function AdminFleetMap({
             </button>
             <button
               onClick={() => setMapFilter("sedang_bertugas")}
-              className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
+              className={`px-2.5 sm:px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
                 mapFilter === "sedang_bertugas" ? "bg-[#FEF3C7] text-[#B45309] shadow-xs font-bold" : "text-slate-600 hover:text-slate-900"
               }`}
             >
@@ -310,7 +310,7 @@ export default function AdminFleetMap({
             </button>
             <button
               onClick={() => setMapFilter("offline")}
-              className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
+              className={`px-2.5 sm:px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
                 mapFilter === "offline" ? "bg-[#F3F4F6] text-[#6B7280] shadow-xs font-bold" : "text-slate-600 hover:text-slate-900"
               }`}
             >
@@ -322,7 +322,7 @@ export default function AdminFleetMap({
 
       {/* Main Interactive Leaflet Map Container */}
       <div
-        className={`relative h-[380px] w-full rounded-xl overflow-hidden border border-slate-300 shadow-inner transition-colors duration-300 ${
+        className={`relative h-[320px] sm:h-[400px] w-full rounded-xl overflow-hidden border border-slate-300 shadow-inner transition-colors duration-300 ${
           mapTheme === "dark" ? "bg-slate-950" : "bg-slate-100"
         }`}
       >
@@ -330,10 +330,11 @@ export default function AdminFleetMap({
         <div ref={mapContainerRef} className="w-full h-full z-0" />
 
         {/* Floating Command Center HUD Bar (Top Left) */}
-        <div className="absolute top-3 left-3 z-10 flex items-center gap-2">
-          <div className="inline-flex items-center gap-2 bg-slate-950/85 text-white border border-slate-700/80 px-3 py-1.5 rounded-lg backdrop-blur-md text-xs font-semibold shadow-md">
+        <div className="absolute top-2.5 sm:top-3 left-2.5 sm:left-3 z-10 flex items-center gap-1.5 sm:gap-2">
+          <div className="inline-flex items-center gap-1.5 sm:gap-2 bg-slate-950/85 text-white border border-slate-700/80 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg backdrop-blur-md text-[10px] sm:text-xs font-semibold shadow-md">
             <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-            <span className="tracking-wide">Command Center Palembang Siaga</span>
+            <span className="hidden sm:inline">Command Center Palembang Siaga</span>
+            <span className="sm:hidden">Radar Siaga</span>
           </div>
 
           <div className="hidden md:inline-flex items-center gap-2 bg-slate-950/85 text-slate-300 border border-slate-700/80 px-2.5 py-1.5 rounded-lg backdrop-blur-md text-[11px]">
@@ -344,31 +345,31 @@ export default function AdminFleetMap({
         </div>
 
         {/* Floating Controls HUD (Top Right) */}
-        <div className="absolute top-3 right-3 z-10 flex items-center gap-2">
+        <div className="absolute top-2.5 sm:top-3 right-2.5 sm:right-3 z-10 flex items-center gap-1.5 sm:gap-2">
           {/* Segmented Theme Switcher (Mode Terang Default vs Radar Gelap) */}
           <div className="inline-flex items-center p-0.5 bg-slate-900/85 backdrop-blur-md border border-slate-700/80 rounded-lg text-xs shadow-md">
             <button
               onClick={() => handleSetTheme("streets")}
-              className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-md transition-all cursor-pointer ${
+              className={`inline-flex items-center gap-1 px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-md transition-all cursor-pointer text-[10px] sm:text-xs ${
                 mapTheme === "streets"
                   ? "bg-white text-slate-900 shadow-xs font-bold"
                   : "text-slate-300 hover:text-white font-medium"
               }`}
               title="Aktifkan Mode Terang (Default)"
             >
-              <span className="material-symbols-outlined text-sm text-amber-500">wb_sunny</span>
+              <span className="material-symbols-outlined text-xs sm:text-sm text-amber-500">wb_sunny</span>
               <span>Terang</span>
             </button>
             <button
               onClick={() => handleSetTheme("dark")}
-              className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-md transition-all cursor-pointer ${
+              className={`inline-flex items-center gap-1 px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-md transition-all cursor-pointer text-[10px] sm:text-xs ${
                 mapTheme === "dark"
                   ? "bg-cyan-950 text-cyan-200 border border-cyan-700/60 shadow-xs font-bold"
                   : "text-slate-300 hover:text-white font-medium"
               }`}
               title="Aktifkan Radar Gelap"
             >
-              <span className="material-symbols-outlined text-sm text-cyan-400">dark_mode</span>
+              <span className="material-symbols-outlined text-xs sm:text-sm text-cyan-400">dark_mode</span>
               <span className="hidden sm:inline">Radar</span> Gelap
             </button>
           </div>
@@ -376,10 +377,10 @@ export default function AdminFleetMap({
           {/* Reset Center Ampera */}
           <button
             onClick={handleResetPalembang}
-            className="inline-flex items-center gap-1 bg-slate-900/85 hover:bg-slate-900 text-white border border-slate-700/80 px-2.5 py-1.5 rounded-lg backdrop-blur-md text-xs font-medium transition cursor-pointer shadow-md"
+            className="inline-flex items-center gap-1 bg-slate-900/85 hover:bg-slate-900 text-white border border-slate-700/80 px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-lg backdrop-blur-md text-[10px] sm:text-xs font-medium transition cursor-pointer shadow-md"
             title="Pusatkan ke Jembatan Ampera"
           >
-            <span className="material-symbols-outlined text-sm">my_location</span>
+            <span className="material-symbols-outlined text-xs sm:text-sm">my_location</span>
             <span className="hidden sm:inline">Pusat Kota</span>
           </button>
 
@@ -387,10 +388,11 @@ export default function AdminFleetMap({
           {onNavigateToArmada && (
             <button
               onClick={onNavigateToArmada}
-              className="inline-flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition-all shadow-md active:scale-95 cursor-pointer"
+              className="inline-flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white text-[10px] sm:text-xs font-semibold px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg transition-all shadow-md active:scale-95 cursor-pointer"
             >
-              <span>Kelola Armada</span>
-              <span className="material-symbols-outlined text-sm">arrow_forward</span>
+              <span className="hidden sm:inline">Kelola Armada</span>
+              <span className="sm:hidden">Armada</span>
+              <span className="material-symbols-outlined text-xs sm:text-sm">arrow_forward</span>
             </button>
           )}
         </div>

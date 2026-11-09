@@ -110,37 +110,39 @@ export default function AdminAnalyticsCharts({
         </div>
 
         {/* Tab Switcher */}
-        <div className="inline-flex p-1 bg-slate-100 rounded-xl border border-slate-200 text-xs font-semibold">
-          <button
-            onClick={() => setActiveTab("status")}
-            className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
-              activeTab === "status"
-                ? "bg-white text-blue-700 shadow-xs font-bold"
-                : "text-slate-600 hover:text-slate-900"
-            }`}
-          >
-            Status & Kesiapan
-          </button>
-          <button
-            onClick={() => setActiveTab("tren")}
-            className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
-              activeTab === "tren"
-                ? "bg-white text-blue-700 shadow-xs font-bold"
-                : "text-slate-600 hover:text-slate-900"
-            }`}
-          >
-            Tren 24 Jam
-          </button>
-          <button
-            onClick={() => setActiveTab("faskes")}
-            className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
-              activeTab === "faskes"
-                ? "bg-white text-blue-700 shadow-xs font-bold"
-                : "text-slate-600 hover:text-slate-900"
-            }`}
-          >
-            Sebaran Faskes
-          </button>
+        <div className="flex items-center overflow-x-auto pb-1 sm:pb-0 no-scrollbar max-w-full">
+          <div className="inline-flex p-1 bg-slate-100 rounded-xl border border-slate-200 text-xs font-semibold shrink-0">
+            <button
+              onClick={() => setActiveTab("status")}
+              className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
+                activeTab === "status"
+                  ? "bg-white text-blue-700 shadow-xs font-bold"
+                  : "text-slate-600 hover:text-slate-900"
+              }`}
+            >
+              Status & Kesiapan
+            </button>
+            <button
+              onClick={() => setActiveTab("tren")}
+              className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
+                activeTab === "tren"
+                  ? "bg-white text-blue-700 shadow-xs font-bold"
+                  : "text-slate-600 hover:text-slate-900"
+              }`}
+            >
+              Tren 24 Jam
+            </button>
+            <button
+              onClick={() => setActiveTab("faskes")}
+              className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
+                activeTab === "faskes"
+                  ? "bg-white text-blue-700 shadow-xs font-bold"
+                  : "text-slate-600 hover:text-slate-900"
+              }`}
+            >
+              Sebaran Faskes
+            </button>
+          </div>
         </div>
       </div>
 

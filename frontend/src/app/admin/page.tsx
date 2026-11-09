@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Link from "next/link";
 import Logo from "@/components/Logo";
 import AdminLoginView from "@/components/admin/AdminLoginView";
 import AdminDashboardView from "@/components/admin/AdminDashboardView";
@@ -29,6 +30,7 @@ export default function AdminPage() {
   const [adminToken, setAdminToken] = useState<string | null>(null);
   const [adminUser, setAdminUser] = useState<{ id?: number; name?: string; email?: string } | null>(null);
   const [activeTab, setActiveTab] = useState<"dashboard" | "armada" | "permintaan" | "tambah_edit">("dashboard");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
 
   const [ambulances, setAmbulances] = useState<Ambulance[]>(FALLBACK_AMBULANCES);
   const [providers, setProviders] = useState<Provider[]>([]);
@@ -611,14 +613,37 @@ export default function AdminPage() {
     <div className="bg-[#FAF8FF] text-[#131b2e] antialiased flex min-h-screen overflow-x-hidden">
       {/* Toast handled below at end of component */}
 
-      {/* SIDEBAR KIRI (Shared Component: SideNavBar Sesuai Stitch Screen A2, A3, A6) */}
-      <aside className="fixed top-0 left-0 h-screen w-64 flex flex-col justify-between z-40 bg-[#131b2e] border-r border-slate-800 shadow-md text-white select-none">
+      {/* Mobile Backdrop Overlay */}
+      {isMobileMenuOpen && (
+        <div
+          onClick={() => setIsMobileMenuOpen(false)}
+          className="fixed inset-0 bg-slate-950/70 backdrop-blur-xs z-40 lg:hidden transition-opacity duration-300"
+          aria-label="Tutup menu navigasi"
+        />
+      )}
+
+      {/* SIDEBAR (Desktop: fixed w-64, Mobile: drawer w-72 with slide animation) */}
+      <aside
+        className={`fixed top-0 left-0 h-screen w-72 lg:w-64 flex flex-col justify-between z-50 lg:z-40 bg-[#131b2e] border-r border-slate-800 shadow-2xl lg:shadow-md text-white select-none transition-transform duration-300 ease-in-out ${
+          isMobileMenuOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+        }`}
+      >
         {/* Top Branding & Navigation */}
         <div className="p-4 flex flex-col gap-6">
           {/* Logo Container */}
           <div className="px-2 pt-2 flex flex-col gap-2">
-            <div className="bg-white/10 rounded-xl p-2.5 backdrop-blur-xs border border-white/10 flex items-center justify-center">
-              <Logo variant="inline" />
+            <div className="flex items-center justify-between">
+              <div className="bg-white/10 rounded-xl p-2.5 backdrop-blur-xs border border-white/10 flex items-center justify-center">
+                <Logo variant="inline" />
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="lg:hidden p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+                aria-label="Tutup menu samping"
+              >
+                <span className="material-symbols-outlined text-xl">close</span>
+              </button>
             </div>
             <div className="mt-1">
               <h1 className="text-base text-white font-extrabold tracking-tight">AmperaSiaga</h1>
@@ -630,7 +655,10 @@ export default function AdminPage() {
           <nav className="flex flex-col gap-1.5 mt-2">
             {/* 1. Dashboard (A2) */}
             <button
-              onClick={() => setActiveTab("dashboard")}
+              onClick={() => {
+                setActiveTab("dashboard");
+                setIsMobileMenuOpen(false);
+              }}
               type="button"
               className={`rounded-xl px-4 py-3 flex items-center gap-3 font-semibold transition duration-150 ease-in-out cursor-pointer text-left ${
                 activeTab === "dashboard"
@@ -644,7 +672,10 @@ export default function AdminPage() {
 
             {/* 2. Armada Ambulans (A3) */}
             <button
-              onClick={() => setActiveTab("armada")}
+              onClick={() => {
+                setActiveTab("armada");
+                setIsMobileMenuOpen(false);
+              }}
               type="button"
               className={`rounded-xl px-4 py-3 flex items-center gap-3 font-semibold transition duration-150 ease-in-out cursor-pointer text-left ${
                 activeTab === "armada" || activeTab === "tambah_edit"
@@ -658,7 +689,10 @@ export default function AdminPage() {
 
             {/* 3. Permintaan (A6 with Badge) */}
             <button
-              onClick={() => setActiveTab("permintaan")}
+              onClick={() => {
+                setActiveTab("permintaan");
+                setIsMobileMenuOpen(false);
+              }}
               type="button"
               className={`rounded-xl px-4 py-3 flex items-center justify-between font-semibold transition duration-150 ease-in-out cursor-pointer text-left ${
                 activeTab === "permintaan"
@@ -683,7 +717,10 @@ export default function AdminPage() {
         <div className="p-4 border-t border-white/10 flex flex-col gap-3">
           <button
             type="button"
-            onClick={() => setIsProfileModalOpen(true)}
+            onClick={() => {
+              setIsProfileModalOpen(true);
+              setIsMobileMenuOpen(false);
+            }}
             className="flex items-center gap-3 px-2 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 transition-colors cursor-pointer text-left group"
             title="Kelola Profil & Kata Sandi"
           >
@@ -704,7 +741,10 @@ export default function AdminPage() {
           </button>
 
           <button
-            onClick={handleLogout}
+            onClick={() => {
+              handleLogout();
+              setIsMobileMenuOpen(false);
+            }}
             type="button"
             className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-red-500/40 text-red-400 hover:bg-red-950/40 text-xs font-bold transition duration-150 cursor-pointer"
           >
@@ -714,23 +754,31 @@ export default function AdminPage() {
         </div>
       </aside>
 
-      {/* MAIN WRAPPER (TopNavBar + Content Canvas) */}
-      <div className="flex-1 ml-64 flex flex-col min-w-0">
+      {/* MAIN WRAPPER (TopNavBar + Content Canvas, ml-0 on mobile, ml-64 on desktop, pb-20 for mobile bottom nav) */}
+      <div className="flex-1 ml-0 lg:ml-64 flex flex-col min-w-0 pb-20 lg:pb-8">
         {/* TOP BAR */}
-        <header className="h-16 bg-white border-b border-slate-200 px-8 flex items-center justify-between sticky top-0 z-30 shadow-xs">
-          {/* Left: Title & Breadcrumbs */}
-          <div className="flex items-center gap-4">
+        <header className="h-16 bg-white border-b border-slate-200 px-3 sm:px-6 lg:px-8 flex items-center justify-between sticky top-0 z-30 shadow-xs">
+          {/* Left: Hamburger menu toggle + Title & Breadcrumbs */}
+          <div className="flex items-center gap-2 sm:gap-4">
+            <button
+              type="button"
+              onClick={() => setIsMobileMenuOpen(true)}
+              className="lg:hidden p-2 rounded-xl text-slate-700 hover:text-slate-900 hover:bg-slate-100 border border-slate-200 transition-colors cursor-pointer flex items-center justify-center shrink-0"
+              aria-label="Buka menu navigasi"
+            >
+              <span className="material-symbols-outlined text-2xl">menu</span>
+            </button>
             <div>
-              <h2 className="text-lg font-bold text-slate-900">
+              <h2 className="text-base sm:text-lg font-bold text-slate-900 truncate max-w-[170px] sm:max-w-none">
                 {activeTab === "dashboard"
                   ? "Dashboard Posko"
                   : activeTab === "armada"
-                  ? "Manajemen Armada Ambulans"
+                  ? "Armada Ambulans"
                   : activeTab === "permintaan"
-                  ? "Riwayat Permintaan Ambulans"
-                  : "Formulir Armada Ambulans"}
+                  ? "Riwayat Permintaan"
+                  : "Formulir Armada"}
               </h2>
-              <p className="text-xs text-slate-500">
+              <p className="hidden sm:block text-xs text-slate-500">
                 Sistem /{" "}
                 <span className="text-blue-700 font-semibold">
                   {activeTab === "dashboard"
@@ -746,14 +794,14 @@ export default function AdminPage() {
           </div>
 
           {/* Right Actions */}
-          <div className="flex items-center gap-3">
-            <a
+          <div className="flex items-center gap-1.5 sm:gap-3">
+            <Link
               href="/"
-              className="inline-flex items-center gap-1.5 text-xs text-slate-600 hover:text-blue-700 font-semibold bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg transition-colors"
+              className="inline-flex items-center gap-1 text-xs text-slate-600 hover:text-blue-700 font-semibold bg-slate-100 hover:bg-slate-200 px-2.5 sm:px-3 py-1.5 rounded-lg transition-colors"
             >
               <span className="material-symbols-outlined text-sm">open_in_new</span>
-              <span>Web Publik</span>
-            </a>
+              <span className="hidden sm:inline">Web</span> Publik
+            </Link>
 
             {/* Alarm Sound Toggle Button */}
             <button
@@ -766,7 +814,7 @@ export default function AdminPage() {
                   "info"
                 );
               }}
-              className={`p-2 rounded-xl border text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer ${
+              className={`p-1.5 sm:p-2 rounded-xl border text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer ${
                 soundEnabled
                   ? "bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100"
                   : "bg-slate-100 border-slate-300 text-slate-500 hover:bg-slate-200"
@@ -795,7 +843,7 @@ export default function AdminPage() {
             <button
               type="button"
               onClick={() => setIsProfileModalOpen(true)}
-              className="flex items-center gap-2.5 pl-2 border-l border-slate-200 hover:opacity-85 transition-opacity cursor-pointer text-left"
+              className="flex items-center gap-2 pl-1.5 sm:pl-2 border-l border-slate-200 hover:opacity-85 transition-opacity cursor-pointer text-left"
               title="Pengaturan Akun & Ubah Kata Sandi"
             >
               <div className="relative">
@@ -821,7 +869,7 @@ export default function AdminPage() {
         </header>
 
         {/* CONTENT CANVAS */}
-        <main className="p-6 md:p-8 flex-1 flex flex-col gap-6">
+        <main className="p-3.5 sm:p-6 md:p-8 flex-1 flex flex-col gap-4 sm:gap-6">
           {activeTab === "dashboard" ? (
             <AdminDashboardView
               ambulances={ambulances}
@@ -876,6 +924,83 @@ export default function AdminPage() {
         </main>
       </div>
 
+      {/* MOBILE BOTTOM NAVIGATION BAR (Khusus Smartphone & Tablet < lg) */}
+      <nav
+        className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#131b2e]/95 backdrop-blur-md border-t border-slate-800 px-2 py-1.5 flex items-center justify-around shadow-2xl"
+        aria-label="Navigasi Bawah Mobile"
+      >
+        {/* Tab 1: Dashboard */}
+        <button
+          type="button"
+          onClick={() => {
+            setActiveTab("dashboard");
+            setIsMobileMenuOpen(false);
+          }}
+          className={`flex flex-col items-center justify-center py-1 px-3 rounded-xl transition-all cursor-pointer ${
+            activeTab === "dashboard"
+              ? "text-blue-400 font-bold"
+              : "text-slate-400 hover:text-white"
+          }`}
+        >
+          <span className="material-symbols-outlined text-xl">dashboard</span>
+          <span className="text-[10px] mt-0.5">Dashboard</span>
+        </button>
+
+        {/* Tab 2: Armada */}
+        <button
+          type="button"
+          onClick={() => {
+            setActiveTab("armada");
+            setIsMobileMenuOpen(false);
+          }}
+          className={`flex flex-col items-center justify-center py-1 px-3 rounded-xl transition-all cursor-pointer ${
+            activeTab === "armada" || activeTab === "tambah_edit"
+              ? "text-blue-400 font-bold"
+              : "text-slate-400 hover:text-white"
+          }`}
+        >
+          <span className="material-symbols-outlined text-xl">local_hospital</span>
+          <span className="text-[10px] mt-0.5">Armada</span>
+        </button>
+
+        {/* Tab 3: Permintaan with Badge */}
+        <button
+          type="button"
+          onClick={() => {
+            setActiveTab("permintaan");
+            setIsMobileMenuOpen(false);
+          }}
+          className={`relative flex flex-col items-center justify-center py-1 px-3 rounded-xl transition-all cursor-pointer ${
+            activeTab === "permintaan"
+              ? "text-blue-400 font-bold"
+              : "text-slate-400 hover:text-white"
+          }`}
+        >
+          <div className="relative">
+            <span className="material-symbols-outlined text-xl">notification_important</span>
+            {waitingCount > 0 && (
+              <span className="absolute -top-1 -right-2 bg-red-600 text-white text-[9px] w-4 h-4 rounded-full flex items-center justify-center font-bold animate-pulse">
+                {waitingCount > 9 ? "9+" : waitingCount}
+              </span>
+            )}
+          </div>
+          <span className="text-[10px] mt-0.5">Permintaan</span>
+        </button>
+
+        {/* Tab 4: Profil / Akun */}
+        <button
+          type="button"
+          onClick={() => {
+            setIsProfileModalOpen(true);
+            setIsMobileMenuOpen(false);
+          }}
+          className="flex flex-col items-center justify-center py-1 px-3 rounded-xl text-slate-400 hover:text-white transition-all cursor-pointer"
+        >
+          <span className="material-symbols-outlined text-xl">manage_accounts</span>
+          <span className="text-[10px] mt-0.5">Akun</span>
+        </button>
+      </nav>
+
       {/* Modal Dialog Hapus (Screen A4) */}
       {deletingAmbulance && (
         <AdminDeleteDialog
@@ -913,7 +1038,7 @@ export default function AdminPage() {
         <div
           role="status"
           aria-live="polite"
-          className="fixed bottom-6 right-6 z-[999] flex items-center gap-3 px-5 py-3.5 rounded-2xl shadow-2xl border text-sm font-semibold animate-in slide-in-from-bottom duration-250 transition-all bg-white text-slate-800 border-slate-200"
+          className="fixed bottom-20 lg:bottom-6 right-4 sm:right-6 z-[999] flex items-center gap-3 px-4 sm:px-5 py-3 sm:py-3.5 rounded-2xl shadow-2xl border text-sm font-semibold animate-in slide-in-from-bottom duration-250 transition-all bg-white text-slate-800 border-slate-200 max-w-[calc(100vw-32px)]"
         >
           <span
             className={`w-3 h-3 rounded-full shrink-0 ${

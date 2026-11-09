@@ -237,7 +237,65 @@ export default function AdminRiwayatPermintaanView({
 
       {/* TABLE DATA RIWAYAT PERMINTAAN */}
       <section className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden flex flex-col">
-        <div className="overflow-x-auto">
+        {/* TAMPILAN MOBILE: KARTU PERMINTAAN (Khusus Layar HP < md) */}
+        <div className="md:hidden divide-y divide-slate-100">
+          {filteredRequests.length === 0 ? (
+            <div className="py-12 text-center text-slate-400 p-4">
+              <span className="material-symbols-outlined text-4xl mb-2 text-slate-300">
+                folder_open
+              </span>
+              <p className="text-xs">Tidak ada riwayat permintaan yang sesuai filter.</p>
+            </div>
+          ) : (
+            filteredRequests.map((req) => {
+              const statusInfo = getStatusBadge(req.status);
+              return (
+                <div
+                  key={req.id}
+                  onClick={() => onSelectRequest(req)}
+                  className="p-4 space-y-2.5 bg-white hover:bg-slate-50 transition-colors cursor-pointer"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-slate-900 flex items-center gap-1.5">
+                      <span className="text-blue-700">#{req.id}</span>
+                      <span>•</span>
+                      <span>{req.callerName}</span>
+                    </span>
+                    <span
+                      className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${statusInfo.bg}`}
+                    >
+                      <span className={`w-1.5 h-1.5 rounded-full ${statusInfo.dot}`}></span>
+                      {statusInfo.label}
+                    </span>
+                  </div>
+
+                  <div className="text-xs text-slate-600 flex items-start gap-1.5">
+                    <span className="material-symbols-outlined text-sm text-red-500 shrink-0 mt-0.5">location_on</span>
+                    <p className="line-clamp-2">{req.pickupLocation}</p>
+                  </div>
+
+                  <div className="flex items-center justify-between pt-2 border-t border-slate-100 text-xs">
+                    <div className="text-slate-500 text-[11px]">
+                      <span>{req.assignedAmbulance?.name || "Siaga"}</span>
+                      <span className="mx-1">•</span>
+                      <span>{req.distanceKm} km ({req.etaMinutes} mnt)</span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <span className="text-[11px] text-slate-400">{req.time}</span>
+                      <span className="text-blue-600 font-bold text-xs flex items-center">
+                        Detail <span className="material-symbols-outlined text-sm">chevron_right</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          )}
+        </div>
+
+        {/* TAMPILAN DESKTOP: TABEL (Khusus Layar md ke atas) */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-200 text-slate-600 text-xs font-bold uppercase tracking-wider">

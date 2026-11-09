@@ -77,7 +77,7 @@ export default function AdminArmadaView({
       </section>
 
       {/* KPI Status Mini Banners */}
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
         <div className="bg-white border border-slate-200 rounded-xl p-4 flex items-center justify-between shadow-xs">
           <div>
             <p className="text-xs text-slate-500 font-medium">Total Unit Terdaftar</p>
@@ -136,13 +136,13 @@ export default function AdminArmadaView({
         </div>
 
         {/* Sisi Kanan: Dropdown Filter Status & Fasilitas RS */}
-        <div className="flex items-center gap-3 w-full sm:w-auto">
+        <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 sm:gap-3 w-full sm:w-auto">
           {/* Filter Status */}
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
             aria-label="Filter Status"
-            className="bg-white border border-slate-300 text-slate-800 text-xs font-semibold py-2 px-3 rounded-lg focus:outline-none focus:border-blue-600 cursor-pointer"
+            className="flex-1 sm:flex-initial bg-white border border-slate-300 text-slate-800 text-xs font-semibold py-2 px-3 rounded-lg focus:outline-none focus:border-blue-600 cursor-pointer"
           >
             <option value="all">Semua Status</option>
             <option value="tersedia">Tersedia (Siaga)</option>
@@ -155,7 +155,7 @@ export default function AdminArmadaView({
             value={providerFilter}
             onChange={(e) => setProviderFilter(e.target.value)}
             aria-label="Filter Pangkalan RS"
-            className="bg-white border border-slate-300 text-slate-800 text-xs font-semibold py-2 px-3 rounded-lg focus:outline-none focus:border-blue-600 cursor-pointer max-w-[200px]"
+            className="flex-1 sm:flex-initial bg-white border border-slate-300 text-slate-800 text-xs font-semibold py-2 px-3 rounded-lg focus:outline-none focus:border-blue-600 cursor-pointer max-w-[200px]"
           >
             <option value="all">Semua Fasilitas RS/PMI</option>
             {providers.map((p) => (
@@ -169,7 +169,7 @@ export default function AdminArmadaView({
           <button
             onClick={onRefresh}
             disabled={isLoading}
-            className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-lg border border-slate-300 transition-colors flex items-center justify-center cursor-pointer disabled:opacity-50"
+            className="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-lg border border-slate-300 transition-colors flex items-center justify-center cursor-pointer disabled:opacity-50 shrink-0"
             title="Muat ulang data tabel"
             type="button"
           >
@@ -182,7 +182,128 @@ export default function AdminArmadaView({
 
       {/* Kartu Tabel Data Ambulans */}
       <section className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs">
-        <div className="overflow-x-auto">
+        {/* TAMPILAN MOBILE: KARTU INTERAKTIF (Khusus Layar HP < md) */}
+        <div className="md:hidden divide-y divide-slate-100">
+          {filtered.length === 0 ? (
+            <div className="py-10 text-center text-slate-400 p-4">
+              <span className="material-symbols-outlined text-4xl mb-2 text-slate-300">search_off</span>
+              <p className="text-xs">Tidak ada armada yang sesuai filter.</p>
+            </div>
+          ) : (
+            filtered.map((item) => (
+              <div key={item.id} className="p-4 space-y-3 bg-white hover:bg-slate-50/50 transition-colors">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-700 flex items-center justify-center shrink-0">
+                      <span className="material-symbols-outlined text-xl">
+                        {item.has_icu ? "emergency" : "airport_shuttle"}
+                      </span>
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <span className="font-bold text-slate-900 text-sm">{item.name}</span>
+                        <span className="bg-blue-50 text-blue-700 text-[10px] px-2 py-0.5 rounded-full font-bold">
+                          {item.vehicle_type === "icu_mobile"
+                            ? "ICU"
+                            : item.has_oxygen
+                            ? "O2"
+                            : "Standard"}
+                        </span>
+                      </div>
+                      <p className="text-xs text-slate-500 font-mono mt-0.5">{item.unit_code}</p>
+                    </div>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex items-center gap-1 shrink-0">
+                    <button
+                      onClick={() => onEditAmbulance(item)}
+                      className="p-1.5 hover:bg-blue-50 text-slate-400 hover:text-blue-700 rounded-lg transition-colors cursor-pointer"
+                      title="Edit Armada"
+                      type="button"
+                    >
+                      <span className="material-symbols-outlined text-lg">edit</span>
+                    </button>
+                    <button
+                      onClick={() => onDeleteAmbulance(item)}
+                      className="p-1.5 hover:bg-red-50 text-slate-400 hover:text-red-600 rounded-lg transition-colors cursor-pointer"
+                      title="Hapus Armada"
+                      type="button"
+                    >
+                      <span className="material-symbols-outlined text-lg">delete</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Status Selector & Provider Info */}
+                <div className="flex items-center justify-between gap-2 pt-1 text-xs">
+                  <div className="relative">
+                    <select
+                      value={item.status}
+                      onChange={(e) =>
+                        onStatusChange(item, e.target.value as "tersedia" | "sedang_bertugas" | "offline")
+                      }
+                      aria-label={`Ubah status ${item.name}`}
+                      className={`text-[11px] font-bold px-2.5 py-1 rounded-full border cursor-pointer appearance-none pr-6 transition-all ${
+                        item.status === "tersedia"
+                          ? "bg-[#DCFCE7] text-[#16A34A] border-[#16A34A]/30"
+                          : item.status === "sedang_bertugas"
+                          ? "bg-[#FEF3C7] text-[#B45309] border-[#B45309]/30"
+                          : "bg-[#F3F4F6] text-[#6B7280] border-slate-300"
+                      }`}
+                    >
+                      <option value="tersedia">● Tersedia</option>
+                      <option value="sedang_bertugas">● Bertugas</option>
+                      <option value="offline">● Offline</option>
+                    </select>
+                    <span className="material-symbols-outlined absolute right-1.5 top-1/2 -translate-y-1/2 text-xs pointer-events-none text-current">
+                      arrow_drop_down
+                    </span>
+                  </div>
+
+                  <p className="text-[11px] text-slate-500 truncate max-w-[170px] text-right">
+                    {item.provider?.name || item.base_location}
+                  </p>
+                </div>
+
+                {/* Driver Contact & Location Row */}
+                <div className="flex items-center justify-between pt-2 border-t border-slate-100 text-xs">
+                  <div className="flex items-center gap-1.5">
+                    <span className="material-symbols-outlined text-sm text-slate-400">person</span>
+                    <span className="text-slate-700 font-medium truncate max-w-[120px]">
+                      {item.driver_name || "Petugas"}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-1.5">
+                    <a
+                      href={`https://wa.me/${item.whatsapp_number}?text=Halo%20AmperaSiaga%20Palembang`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-2 py-0.5 rounded-lg transition-colors"
+                    >
+                      <span className="material-symbols-outlined text-xs">chat</span>
+                      <span>WA</span>
+                    </a>
+                    <button
+                      onClick={() => handleCopy(item.driver_phone || item.whatsapp_number, item.id)}
+                      className="p-1 rounded-md text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-colors"
+                      title="Salin Nomor"
+                      type="button"
+                    >
+                      <span className="material-symbols-outlined text-sm">
+                        {copiedId === item.id ? "check" : "content_copy"}
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+
+        {/* TAMPILAN DESKTOP: TABEL (Khusus Layar Tablet / Desktop md ke atas) */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="bg-slate-50 text-slate-600 text-xs font-bold uppercase tracking-wider border-b border-slate-200">
